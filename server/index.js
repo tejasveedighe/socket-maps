@@ -14,10 +14,16 @@ const io = new Server(server, {
 	},
 });
 
+// when the user is connected to the server
 io.on("connection", (socket) => {
 	console.log(`User Connected ${socket.id}`);
+	socket.on("new_cords", (data) => {
+		const { lat, lng } = data;
+		console.log(lat, lng);
+	});
 });
 
+// to check if the server is running
 app.get("/", (req, res) => {
 	res.send("<h1>Hello World</h1>");
 });
