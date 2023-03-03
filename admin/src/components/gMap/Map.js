@@ -10,6 +10,9 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import "../../App.css";
 
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:3001");
+
 const Map = (props) => {
 	const icon1 = {
 		url: "https://images.vexels.com/media/users/3/154573/isolated/preview/bd08e000a449288c914d851cb9dae110-hatchback-car-top-view-silhouette-by-vexels.png",
@@ -18,11 +21,24 @@ const Map = (props) => {
 		scale: 0.7,
 	};
 
-	let centerPathLat = props.paths[0][0].lat;
-	let centerpathLng = props.paths[0][0].lng;
-
 	const options = { strokeColor: "orange" };
-
+	const [progress, setProgress] = useState([
+		{ lat: 18.566516, lng: -68.435996 },
+	]);
+	useEffect(() => {
+		socket.on("send_cord", (data) => {
+			setProgress([
+				...progress,
+				{
+					lat: parseFloat(Number(data.lat)),
+					lng: parseFloat(Number(data.lng)),
+				},
+			]);
+			console.log("progress", progress);
+		});
+	}, []);
+	let centerPathLat = progress[0].lat;
+	let centerpathLng = progress[0].lng;
 	return (
 		<Card variant="outlined">
 			<div className="gMapCont">
@@ -30,11 +46,10 @@ const Map = (props) => {
 					defaultZoom={17}
 					defaultCenter={{ lat: centerPathLat, lng: centerpathLng }}
 				>
-					{props.paths.map((path, index) => {
-						return (
-							<Poly path={path} index={index} options={options} icon={icon1} />
-						);
-					})}
+					<>
+						<Polyline path={progress} options={options} />
+						<Marker ico={icon1} position={progress[progress.length - 1]} />
+					</>
 				</GoogleMap>
 			</div>
 		</Card>
