@@ -9,7 +9,7 @@ function App() {
 	};
 	return (
 		<div className="App App-header">
-			<form>
+			<form onSubmit={handleSubmit}>
 				<label htmlFor="lat">Latitude</label>
 				<input
 					id="lat"
@@ -25,6 +25,7 @@ function App() {
 					placeholder={"Enter Longitude"}
 					onChange={(event) => setLng(event.currentTarget.value)}
 				/>
+				<button type="submit">Submit</button>
 			</form>
 		</div>
 	);
