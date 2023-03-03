@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import WrappedMap from "./components/gMap/Map";
 
@@ -7,6 +7,8 @@ import useFetch from "./hooks/useFetch";
 import Header from "./components/Header/Header";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
+
+import io from "socket.io-client";
 
 const path2 = [
 	{ lat: 18.566516, lng: -68.435996 },
@@ -57,16 +59,26 @@ const path2 = [
 	{ lat: 18.561206, lng: -68.388521 },
 ];
 
+const socket = io.connect("http://localhost:3001");
+
 function App() {
 	const { data: paths } = useFetch(
 		"https://61a4a0604c822c0017041d33.mockapi.io/shuttle/v1/path"
 	);
 	const mapURL = `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${config.mapsKey}`;
 
+	const fetchedPath = [];
+	const [lat, setLat] = useState("");
+	useEffect(() => {
+		socket.on("send_cord", (data) => {
+			console.log(data);
+			setLat(data);
+			fetchedPath.push(data);
+		});
+	}, []);
 	return (
 		<div className="App">
 			<Header />
-
 			{paths ? (
 				<WrappedMap
 					paths={[paths, path2]}
