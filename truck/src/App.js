@@ -14,21 +14,24 @@ function App() {
 	return (
 		<div className="App App-header">
 			<form onSubmit={handleSubmit}>
-				<label htmlFor="lat">Latitude</label>
-				<input
-					id="lat"
-					value={lat}
-					placeholder={"Enter Latitude"}
-					onChange={(event) => setLat(event.currentTarget.value)}
-				/>
-				<br />
-				<label htmlFor="lng">Longitude</label>
-				<input
-					id="lng"
-					value={lng}
-					placeholder={"Enter Longitude"}
-					onChange={(event) => setLng(event.currentTarget.value)}
-				/>
+				<div>
+					<label htmlFor="lat">Latitude</label>
+					<input
+						id="lat"
+						value={lat}
+						placeholder={"Enter Latitude"}
+						onChange={(event) => setLat(event.currentTarget.value)}
+					/>
+				</div>
+				<div>
+					<label htmlFor="lng">Longitude</label>
+					<input
+						id="lng"
+						value={lng}
+						placeholder={"Enter Longitude"}
+						onChange={(event) => setLng(event.currentTarget.value)}
+					/>
+				</div>
 				<button type="submit">Submit</button>
 			</form>
 		</div>
