@@ -1,6 +1,8 @@
 import "./App.css";
 import React, { useState } from "react";
+import io from "socket.io-client";
 
+const socket = io.connect("http://localhost:3001");
 function App() {
 	const [lat, setLat] = useState();
 	const [lng, setLng] = useState();
