@@ -19,6 +19,7 @@ function App() {
 					<input
 						id="lat"
 						value={lat}
+						type={"number"}
 						placeholder={"Enter Latitude"}
 						onChange={(event) => setLat(event.currentTarget.value)}
 					/>
@@ -28,6 +29,7 @@ function App() {
 					<input
 						id="lng"
 						value={lng}
+						type={"number"}
 						placeholder={"Enter Longitude"}
 						onChange={(event) => setLng(event.currentTarget.value)}
 					/>

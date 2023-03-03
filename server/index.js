@@ -20,10 +20,9 @@ io.on("connection", (socket) => {
 	socket.on("new_cords", (data) => {
 		const { lat, lng } = data;
 		console.log(lat, lng);
+		io.emit("send_cord", data);
 	});
-	socket.on("admin", (data) => {
-		console.log("Admin Connected", data);
-	});
+	socket.on("disconnect", () => console.log("A user Disconnected"));
 });
 
 // to check if the server is running
