@@ -1,19 +1,31 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import io from "socket.io-client";
 
 const socket = io.connect("http://localhost:3001");
 
 function App() {
-	const [lat, setLat] = useState("");
-	const [lng, setLng] = useState("");
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		socket.emit("new_cords", { lat, lng });
-	};
+	setTimeout(
+		() =>
+			navigator.geolocation.watchPosition(
+				(position) => {
+					console.count("timeout", position.coords);
+					socket.emit("new_cords", {
+						lat: position.coords.latitude,
+						lng: position.coords.longitude,
+					});
+				},
+				function error(msg) {
+					alert("Please Enable your location access.");
+				},
+				{ maximumAge: 10000, timeout: 1000, enableHighAccuracy: true }
+			),
+		5000
+	);
+
 	return (
 		<div className="App App-header">
-			<form onSubmit={handleSubmit}>
+			{/* <form onSubmit={handleSubmit}>
 				<div>
 					<label htmlFor="lat">Latitude</label>
 					<input
@@ -34,8 +46,9 @@ function App() {
 						onChange={(event) => setLng(event.currentTarget.value)}
 					/>
 				</div>
-				<button type="submit">Submit</button>
+				<button type="submit">Submit</button> 
 			</form>
+				*/}
 		</div>
 	);
 }

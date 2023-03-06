@@ -25,7 +25,11 @@ const Map = (props) => {
 	const [progress, setProgress] = useState([
 		{ lat: 18.566516, lng: -68.435996 },
 	]);
+	let coords = 1;
 	useEffect(() => {
+		navigator.geolocation.getCurrentPosition((position) => {
+			coords = position.coords;
+		});
 		socket.on("send_cord", (data) => {
 			setProgress([
 				...progress,
@@ -34,7 +38,7 @@ const Map = (props) => {
 					lng: parseFloat(Number(data.lng)),
 				},
 			]);
-			console.log("progress", progress);
+			console.count("progress", progress);
 		});
 	}, []);
 	let centerPathLat = progress[0].lat;
